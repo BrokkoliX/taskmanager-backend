@@ -1,0 +1,158 @@
+# .NET Core / ASP.NET Core
+bin/
+obj/
+out/
+*.user
+*.suo
+*.cache
+*.log
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio cache/options
+.vs/
+.vscode/
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+*.userprefs
+
+# Build Results
+*_i.c
+*_p.c
+*_i.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Entity Framework
+*.mdf
+*.ldf
+*.ndf
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+taskmanager.db
+taskmanager.db-*
+*.sqlite
+*.sqlite3
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDEs
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Rider
+.idea/
+*.sln.iml
+
+# MonoDevelop
+*.pidb
+*.userprefs
+
+# Test Coverage
+coverage/
+*.coverage
+*.coveragexml
+
+# Publish profiles
+PublishScripts/
+*.Publish.xml
+*.pubxml
+*.publishproj
+
+# Azure
+*.azurePubxml
+*.pubxml
+
+# Node (if frontend is included)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Application specific
+appsettings.Development.json
+appsettings.*.json
+!appsettings.json
+
+# Backup files
+*.backup
+*.bak
+*.old
+
+# MCP Server directories (if not needed in backend)
+mcp-*/
+
+# Documentation temporary files
+*.md.backup
+
+# Build artifacts
+*.dll
+*.exe
+*.pdb
+!**/src/**/*.dll
+!**/src/**/*.exe
+!**/src/**/*.pdb

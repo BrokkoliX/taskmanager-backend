@@ -1,0 +1,54 @@
+[K\ Creating file bundle - Checking and adding files for analysis[K| Creating file bundle - Checking and adding files for analysis[K/ Creating file bundle - Checking and adding files for analysis[K- Creating file bundle - Checking and adding files for analysis[K\ Creating file bundle - Checking and adding files for analysis[K| Creating file bundle - Checking and adding files for analysis[K[K[K\ Snyk Code analysis for . - Retrieving results...[K| Snyk Code analysis for . - Retrieving results...[K/ Snyk Code analysis for . - Retrieving results...[K- Snyk Code analysis for . - Retrieving results...[K\ Snyk Code analysis for . - Retrieving results...[K| Snyk Code analysis for . - Retrieving results...[K/ Snyk Code analysis for . - Retrieving results...[K- Snyk Code analysis for . - Retrieving results...[K\ Snyk Code analysis for . - Retrieving results...[K| Snyk Code analysis for . - Retrieving results...[K/ Snyk Code analysis for . - Retrieving results...[K- Snyk Code analysis for . - Retrieving results...[K\ Snyk Code analysis for . - Retrieving results...[K| Snyk Code analysis for . - Retrieving results...[K/ Snyk Code analysis for . - Retrieving results...[K- Snyk Code analysis for . - Retrieving results...[K\ Snyk Code analysis for . - Retrieving results...[K| Snyk Code analysis for . - Retrieving results...[K/ Snyk Code analysis for . - Retrieving results...[K- Snyk Code analysis for . - Retrieving results...[K\ Snyk Code analysis for . - Retrieving results...[K| Snyk Code analysis for . - Retrieving results...[K
+[1mTesting . ...[0m
+
+[1mOpen Issues[0m
+
+]11;?\[6n[33m ✗ [MEDIUM][0m [1mDOM-based Cross-site Scripting (XSS)[0m
+   Finding ID: b6423624-2708-4a88-a1cf-1a774c2a8a87
+   Path: wwwroot/app.js, line 440
+   Info: Unsanitized input from data from a remote resource flows into innerHTML, where it is used to dynamically construct the HTML page on client side. This may result in a DOM Based Cross-Site Scripting attack (DOMXSS).
+
+[33m ✗ [MEDIUM][0m [1mDOM-based Cross-site Scripting (XSS)[0m
+   Finding ID: 8840b78f-1417-4033-b548-dfa5238991e7
+   Path: wwwroot/app.js, line 773
+   Info: Unsanitized input from data from a remote resource flows into innerHTML, where it is used to dynamically construct the HTML page on client side. This may result in a DOM Based Cross-Site Scripting attack (DOMXSS).
+
+[31m ✗ [HIGH][0m [1mCommand Injection[0m
+   Finding ID: 6e9d984f-de64-48e0-8d48-b29ed6137ccf
+   Path: mcp-snyk-server/index.js, line 143
+   Info: Unsanitized input from an HTTP parameter flows into promisified command execution function, where it is used to build a shell command. This may result in a Command Injection vulnerability.
+
+[31m ✗ [HIGH][0m [1mCommand Injection[0m
+   Finding ID: cec7fea8-1438-448e-ae4d-5f4fe43df579
+   Path: mcp-snyk-server/index.js, line 166
+   Info: Unsanitized input from an HTTP parameter flows into promisified command execution function, where it is used to build a shell command. This may result in a Command Injection vulnerability.
+
+[31m ✗ [HIGH][0m [1mCommand Injection[0m
+   Finding ID: e4d97eb7-091c-4d8f-accc-994faa84ae42
+   Path: mcp-snyk-server/index.js, line 189
+   Info: Unsanitized input from an HTTP parameter flows into promisified command execution function, where it is used to build a shell command. This may result in a Command Injection vulnerability.
+
+[31m ✗ [HIGH][0m [1mCommand Injection[0m
+   Finding ID: 98e34a5c-9365-4dea-8a16-09b5197353b1
+   Path: mcp-snyk-server/index.js, line 212
+   Info: Unsanitized input from an HTTP parameter flows into promisified command execution function, where it is used to build a shell command. This may result in a Command Injection vulnerability.
+
+
+
+╭───────────────────────────────────────────────────────╮
+│ [1mTest Summary[0m                                          │
+│                                                       │
+│   Organization:      robbie-AbL6qLgxPkdwPZiNKx9Uoa    │
+│   Test type:         Static code analysis             │
+│   Project path:      .                                │
+│                                                       │
+│   Total issues:   6                                   │
+│   Ignored issues: [1m0[0m [[31m 0 HIGH [0m[33m 0 MEDIUM [0m 0 LOW ]       │
+│   Open issues:    [1m6[0m [[31m 4 HIGH [0m[33m 2 MEDIUM [0m 0 LOW ]       │
+╰───────────────────────────────────────────────────────╯
+    
+💡 Tip
+
+   To view ignored issues, use the --include-ignores option.
+                                                            
+
