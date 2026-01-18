@@ -30,4 +30,7 @@ public class TaskItem
     public string? Category { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    // Navigation property for comments
+    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 }

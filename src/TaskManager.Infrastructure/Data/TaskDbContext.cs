@@ -11,6 +11,7 @@ public class TaskDbContext : DbContext
 
     public DbSet<TaskItem> Tasks => Set<TaskItem>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<Comment> Comments => Set<Comment>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -44,6 +45,27 @@ public class TaskDbContext : DbContext
             entity.HasOne(e => e.Assignee)
                 .WithMany(u => u.AssignedTasks)
                 .HasForeignKey(e => e.AssigneeId)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
+
+        // Configure Comment entity
+        modelBuilder.Entity<Comment>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Content).IsRequired().HasMaxLength(1000);
+            entity.Property(e => e.CreatedAt).IsRequired();
+            entity.Property(e => e.UpdatedAt);
+
+            // Configure relationship with TaskItem
+            entity.HasOne(e => e.TaskItem)
+                .WithMany(t => t.Comments)
+                .HasForeignKey(e => e.TaskItemId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure relationship with User (comment author)
+            entity.HasOne(e => e.CreatedBy)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(e => e.CreatedByUserId)
                 .OnDelete(DeleteBehavior.SetNull);
         });
     }
