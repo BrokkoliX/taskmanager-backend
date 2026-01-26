@@ -16,161 +16,82 @@ public static class DatabaseSeeder
 
         Console.WriteLine("🌱 Seeding database with sample data...");
 
-        // Create Users
-        var users = new List<User>
+        // Create 5 Random Users
+        var random = new Random(Guid.NewGuid().GetHashCode());
+        var firstNames = new[] { "Emma", "James", "Olivia", "Michael", "Sophia", "Daniel", "Isabella", "Alexander", "Ava", "Ethan" };
+        var lastNames = new[] { "Thompson", "Garcia", "Rodriguez", "Martinez", "Anderson", "Taylor", "Thomas", "Moore", "Jackson", "Martin" };
+        var departments = new[] { "Engineering", "Product", "Design", "Marketing", "Sales", "HR", "Finance", "Operations", "Support", "Security" };
+        
+        var users = new List<User>();
+        for (int i = 0; i < 5; i++)
         {
-            new User
+            var firstName = firstNames[random.Next(firstNames.Length)];
+            var lastName = lastNames[random.Next(lastNames.Length)];
+            var department = departments[random.Next(departments.Length)];
+            
+            users.Add(new User
             {
-                Name = "Alice Johnson",
-                Email = "alice.johnson@company.com",
-                Department = "Engineering",
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow
-            },
-            new User
-            {
-                Name = "Bob Smith",
-                Email = "bob.smith@company.com",
-                Department = "Product",
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow
-            },
-            new User
-            {
-                Name = "Carol Davis",
-                Email = "carol.davis@company.com",
-                Department = "Design",
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow
-            },
-            new User
-            {
-                Name = "David Wilson",
-                Email = "david.wilson@company.com",
-                Department = "Marketing",
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow
-            }
-        };
+                Name = $"{firstName} {lastName}",
+                Email = $"{firstName.ToLower()}.{lastName.ToLower()}{i}@company.com",
+                Department = department,
+                IsActive = random.Next(0, 10) > 1, // 90% active
+                CreatedAt = DateTime.UtcNow.AddDays(-random.Next(1, 90))
+            });
+        }
 
         context.Users.AddRange(users);
         context.SaveChanges();
         Console.WriteLine($"✅ Created {users.Count} users");
 
-        // Create Tasks
-        var tasks = new List<TaskItem>
+        // Create 10 Random Tasks
+        var taskTitles = new[]
         {
-            new TaskItem
-            {
-                Title = "Implement user authentication",
-                Description = "Add JWT-based authentication to the API",
-                Priority = Priority.High,
-                AssigneeId = users[0].Id,
-                DueDate = DateTime.UtcNow.AddDays(28),
-                Category = "Backend",
-                IsCompleted = false,
-                CreatedAt = DateTime.UtcNow
-            },
-            new TaskItem
-            {
-                Title = "Design landing page mockup",
-                Description = "Create high-fidelity mockups for the new landing page",
-                Priority = Priority.Medium,
-                AssigneeId = users[2].Id,
-                DueDate = DateTime.UtcNow.AddDays(7),
-                Category = "Design",
-                IsCompleted = false,
-                CreatedAt = DateTime.UtcNow
-            },
-            new TaskItem
-            {
-                Title = "Write API documentation",
-                Description = "Document all endpoints with examples and request/response schemas",
-                Priority = Priority.Medium,
-                AssigneeId = users[0].Id,
-                DueDate = DateTime.UtcNow.AddDays(12),
-                Category = "Documentation",
-                IsCompleted = true,
-                CreatedAt = DateTime.UtcNow.AddDays(-5)
-            },
-            new TaskItem
-            {
-                Title = "Set up CI/CD pipeline",
-                Description = "Configure GitHub Actions for automated testing and deployment",
-                Priority = Priority.High,
-                AssigneeId = users[0].Id,
-                DueDate = DateTime.UtcNow.AddDays(14),
-                Category = "DevOps",
-                IsCompleted = false,
-                CreatedAt = DateTime.UtcNow
-            },
-            new TaskItem
-            {
-                Title = "Create marketing campaign",
-                Description = "Plan Q1 2025 marketing campaign for product launch",
-                Priority = Priority.Medium,
-                AssigneeId = users[3].Id,
-                DueDate = DateTime.UtcNow.AddDays(23),
-                Category = "Marketing",
-                IsCompleted = false,
-                CreatedAt = DateTime.UtcNow
-            },
-            new TaskItem
-            {
-                Title = "Implement dark mode",
-                Description = "Add dark mode theme support to the application",
-                Priority = Priority.Low,
-                AssigneeId = users[2].Id,
-                DueDate = DateTime.UtcNow.AddDays(42),
-                Category = "Frontend",
-                IsCompleted = false,
-                CreatedAt = DateTime.UtcNow
-            },
-            new TaskItem
-            {
-                Title = "Fix mobile responsiveness",
-                Description = "Resolve layout issues on mobile devices",
-                Priority = Priority.High,
-                AssigneeId = users[2].Id,
-                DueDate = DateTime.UtcNow.AddDays(10),
-                Category = "Frontend",
-                IsCompleted = false,
-                CreatedAt = DateTime.UtcNow
-            },
-            new TaskItem
-            {
-                Title = "Database optimization",
-                Description = "Add indexes and optimize slow queries",
-                Priority = Priority.Medium,
-                AssigneeId = users[0].Id,
-                DueDate = DateTime.UtcNow.AddDays(18),
-                Category = "Backend",
-                IsCompleted = false,
-                CreatedAt = DateTime.UtcNow
-            },
-            new TaskItem
-            {
-                Title = "User research interviews",
-                Description = "Conduct 10 user interviews for feature validation",
-                Priority = Priority.Medium,
-                AssigneeId = users[1].Id,
-                DueDate = DateTime.UtcNow.AddDays(9),
-                Category = "Research",
-                IsCompleted = true,
-                CreatedAt = DateTime.UtcNow.AddDays(-3)
-            },
-            new TaskItem
-            {
-                Title = "Prepare product demo",
-                Description = "Create demo script and slides for stakeholder presentation",
-                Priority = Priority.High,
-                AssigneeId = users[1].Id,
-                DueDate = DateTime.UtcNow.AddDays(8),
-                Category = "Product",
-                IsCompleted = false,
-                CreatedAt = DateTime.UtcNow
-            }
+            "Implement feature", "Fix critical bug", "Refactor legacy code", "Write unit tests", "Update documentation",
+            "Optimize performance", "Review pull requests", "Design new UI", "Conduct user testing", "Deploy to production",
+            "Setup monitoring", "Implement caching", "Security audit", "Database migration", "API redesign"
         };
+        
+        var taskDescriptions = new[]
+        {
+            "Complete implementation with full coverage",
+            "Investigate root cause and implement fix",
+            "Improve code structure and maintainability",
+            "Ensure comprehensive test coverage",
+            "Update and review all documentation",
+            "Identify bottlenecks and optimize",
+            "Review code quality and suggest improvements",
+            "Create modern and user-friendly design",
+            "Gather feedback from end users",
+            "Prepare and execute deployment",
+            "Set up alerts and dashboards",
+            "Implement caching strategy",
+            "Perform comprehensive security review",
+            "Plan and execute database schema changes",
+            "Redesign API endpoints for better consistency"
+        };
+        
+        var categories = new[] { "Backend", "Frontend", "DevOps", "Design", "Testing", "Documentation", "Security", "Performance", "Infrastructure", "Research" };
+        
+        var tasks = new List<TaskItem>();
+        for (int i = 0; i < 10; i++)
+        {
+            var priority = (Priority)random.Next(0, 3);
+            var isCompleted = random.Next(0, 10) > 6; // 30% completed
+            var daysFromNow = random.Next(-30, 60);
+            var assigneeId = users[random.Next(users.Count)].Id;
+            
+            tasks.Add(new TaskItem
+            {
+                Title = taskTitles[random.Next(taskTitles.Length)] + $" #{i + 1}",
+                Description = taskDescriptions[random.Next(taskDescriptions.Length)],
+                Priority = priority,
+                AssigneeId = assigneeId,
+                DueDate = DateTime.UtcNow.AddDays(daysFromNow),
+                Category = categories[random.Next(categories.Length)],
+                IsCompleted = isCompleted,
+                CreatedAt = DateTime.UtcNow.AddDays(-random.Next(0, 60))
+            });
+        }
 
         context.Tasks.AddRange(tasks);
         context.SaveChanges();
