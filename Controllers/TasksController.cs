@@ -109,4 +109,17 @@ public class TasksController : ControllerBase
         var fileName = $"tasks_export_{DateTime.UtcNow:yyyyMMdd_HHmmss}.csv";
         return File(csvData, "text/csv", fileName);
     }
+
+    /// <summary>
+    /// Export tasks to PDF
+    /// </summary>
+    [HttpGet("export/pdf")]
+    public async Task<IActionResult> ExportToPdf(
+        [FromQuery] string? query = null,
+        [FromQuery] bool onlyIncomplete = false)
+    {
+        var pdfData = await _taskService.ExportToPdfAsync(query, onlyIncomplete);
+        var fileName = $"tasks_export_{DateTime.UtcNow:yyyyMMdd_HHmmss}.pdf";
+        return File(pdfData, "application/pdf", fileName);
+    }
 }

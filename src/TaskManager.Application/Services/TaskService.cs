@@ -1,4 +1,7 @@
 using OfficeOpenXml;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
 using TaskManager.Core.Entities;
 using TaskManager.Core.Interfaces.Repositories;
 using TaskManager.Core.Interfaces.Services;
@@ -160,5 +163,126 @@ public class TaskService : ITaskService
         }
 
         return value;
+    }
+
+    public async Task<byte[]> ExportToPdfAsync(string? query = null, bool onlyIncomplete = false)
+    {
+        // Set QuestPDF license context (required for non-commercial use)
+        QuestPDF.Settings.License = LicenseType.Community;
+
+        var tasks = await SearchAsync(query, onlyIncomplete);
+        var taskList = tasks.ToList();
+
+        var document = Document.Create(container =>
+        {
+            container.Page(page =>
+            {
+                page.Size(PageSizes.A4.Landscape());
+                page.Margin(30);
+                page.DefaultTextStyle(x => x.FontSize(10));
+
+                // Header
+                page.Header().Element(ComposeHeader);
+
+                // Content
+                page.Content().Element(content => ComposeContent(content, taskList));
+
+                // Footer
+                page.Footer().AlignCenter().Text(text =>
+                {
+                    text.Span("Page ");
+                    text.CurrentPageNumber();
+                    text.Span(" of ");
+                    text.TotalPages();
+                    text.Span($" | Generated on {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC");
+                });
+            });
+        });
+
+        return document.GeneratePdf();
+    }
+
+    private static void ComposeHeader(IContainer container)
+    {
+        container.Row(row =>
+        {
+            row.RelativeItem().Column(column =>
+            {
+                column.Item().Text("Task Manager - Tasks Export")
+                    .FontSize(20)
+                    .Bold()
+                    .FontColor(Colors.Blue.Medium);
+
+                column.Item().Text($"Export Date: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC")
+                    .FontSize(9)
+                    .FontColor(Colors.Grey.Medium);
+            });
+        });
+    }
+
+    private static void ComposeContent(IContainer container, List<TaskItem> tasks)
+    {
+        container.Table(table =>
+        {
+            // Define columns
+            table.ColumnsDefinition(columns =>
+            {
+                columns.ConstantColumn(30);  // ID
+                columns.RelativeColumn(3);   // Title
+                columns.RelativeColumn(3);   // Description
+                columns.RelativeColumn(1);   // Status
+                columns.RelativeColumn(2);   // Assignee
+                columns.RelativeColumn(1);   // Priority
+                columns.RelativeColumn(2);   // Due Date
+                columns.RelativeColumn(2);   // Category
+                columns.RelativeColumn(2);   // Created At
+            });
+
+            // Header
+            table.Header(header =>
+            {
+                header.Cell().Element(CellStyle).Text("ID").Bold();
+                header.Cell().Element(CellStyle).Text("Title").Bold();
+                header.Cell().Element(CellStyle).Text("Description").Bold();
+                header.Cell().Element(CellStyle).Text("Status").Bold();
+                header.Cell().Element(CellStyle).Text("Assignee").Bold();
+                header.Cell().Element(CellStyle).Text("Priority").Bold();
+                header.Cell().Element(CellStyle).Text("Due Date").Bold();
+                header.Cell().Element(CellStyle).Text("Category").Bold();
+                header.Cell().Element(CellStyle).Text("Created At").Bold();
+
+                static IContainer CellStyle(IContainer container)
+                {
+                    return container
+                        .BorderBottom(1)
+                        .BorderColor(Colors.Black)
+                        .PaddingVertical(5)
+                        .Background(Colors.Grey.Lighten3);
+                }
+            });
+
+            // Data rows
+            foreach (var task in tasks)
+            {
+                table.Cell().Element(CellStyle).Text(task.Id.ToString());
+                table.Cell().Element(CellStyle).Text(task.Title ?? string.Empty);
+                table.Cell().Element(CellStyle).Text(task.Description ?? string.Empty);
+                table.Cell().Element(CellStyle).Text(task.IsCompleted ? "Completed" : "Pending");
+                table.Cell().Element(CellStyle).Text(task.Assignee?.Name ?? string.Empty);
+                table.Cell().Element(CellStyle).Text(task.Priority.ToString());
+                table.Cell().Element(CellStyle).Text(task.DueDate?.ToString("yyyy-MM-dd") ?? string.Empty);
+                table.Cell().Element(CellStyle).Text(task.Category ?? string.Empty);
+                table.Cell().Element(CellStyle).Text(task.CreatedAt.ToString("yyyy-MM-dd HH:mm"));
+
+                static IContainer CellStyle(IContainer container)
+                {
+                    return container
+                        .BorderBottom(1)
+                        .BorderColor(Colors.Grey.Lighten2)
+                        .PaddingVertical(3)
+                        .PaddingHorizontal(2);
+                }
+            }
+        });
     }
 }
